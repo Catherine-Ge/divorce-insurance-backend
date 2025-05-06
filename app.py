@@ -7,16 +7,20 @@ import pandas as pd
 app = Flask(__name__, static_folder='build', static_url_path='')
 CORS(app)
 
-model = joblib.load("logistic_model.pkl")
-encoder = joblib.load("onehot_encoder.pkl")
+# Get project root
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+model_dir = os.path.join(root_dir, "insurance_design")
 
+# Load model and encoder
+model = joblib.load(os.path.join(model_dir, "logistic_model.pkl"))
+encoder = joblib.load(os.path.join(model_dir, "onehot_encoder.pkl"))
 
 import smtplib
 from email.mime.text import MIMEText
 
 def send_email(to_address, subject, body):
-    from_address = "6556catherine@gmail.com"
-    password = os.environ.get("GMAIL_APP_PASSWORD")
+    from_address = os.environ.get("EMAIL_USER")
+    password = os.environ.get("EMAIL_PASS")
 
     msg = MIMEText(body)
     msg["Subject"] = subject
@@ -24,6 +28,8 @@ def send_email(to_address, subject, body):
     msg["To"] = to_address
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        print(f"EMAIL_USER: {from_address}")
+        print(f"EMAIL_PASS exists: {bool(password)}")
         server.login(from_address, password)
         server.send_message(msg)
 
