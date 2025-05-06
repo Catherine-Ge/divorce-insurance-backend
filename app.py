@@ -7,13 +7,9 @@ import pandas as pd
 app = Flask(__name__, static_folder='build', static_url_path='')
 CORS(app)
 
-# Get project root
-root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-model_dir = os.path.join(root_dir, "insurance_design")
+model = joblib.load("logistic_model.pkl")
+encoder = joblib.load("onehot_encoder.pkl")
 
-# Load model and encoder
-model = joblib.load(os.path.join(model_dir, "logistic_model.pkl"))
-encoder = joblib.load(os.path.join(model_dir, "onehot_encoder.pkl"))
 
 import smtplib
 from email.mime.text import MIMEText
