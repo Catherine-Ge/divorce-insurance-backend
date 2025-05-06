@@ -8,7 +8,8 @@ app = Flask(__name__, static_folder='build', static_url_path='')
 CORS(app)
 
 # Get project root
-model_dir = root_dir
+root_dir = os.path.abspath(os.path.dirname(__file__))
+model_dir = root_dir  # or use a subfolder if needed
 
 
 # Load model and encoder
