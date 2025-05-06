@@ -1,0 +1,8 @@
+
+services:
+  - type: web
+    name: divorce-insurance-backend
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python predict_quote.py"
+    plan: free
